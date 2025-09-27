@@ -8,34 +8,69 @@ type Config = {
     currentUserName: string 
 }
 
-// export function setUser(){
-//     const fileContent = fs.readFileSync(getConfigFilePath(), 'utf-8');
-//     const config = JSON.parse(fileContent);
-//     writeConfig(config.db_url);
+export function setUser(name: string){
+    const fileContent = fs.readFileSync(getConfigFilePath(), 'utf-8');
+    const config = JSON.parse(fileContent);
+    writeConfig(config.dbUrl, name);
+}
 
-// }
+export function readConfig(): Config {
+    const fileContent = fs.readFileSync(getConfigFilePath(), 'utf-8');
+    const config = JSON.parse(fileContent);
+    if (!validateConfig(config)) {
+        throw new Error('Invalid configuration file');
+    }
+    return config;    
+}
 
-// export function readConfig(): Config {
-//     const configPath = path.join(os.homedir(), '.blog_aggregator_config.json');
-// }
+export function getConfigFilePath():string{
+    return path.join(os.homedir(), '/.gatorconfig.json');
+};
 
-// function getConfigFilePath():string{
-//     return path.join(os.homedir(), '/.gatorconfig.json');
-// };
+function writeConfig(path: string, name: string){
+    if(!path || !name){
+        throw new Error('Invalid parameters to write config');
+    };
+    fs.writeFileSync(getConfigFilePath(), JSON.stringify({
+        dbUrl: path,
+        currentUserName: name 
+}),
+)
+}
 
-// function writeConfig(path: string){
-//     fs.writeFileSync(getConfigFilePath(), JSON.stringify({
-//         dbUrl: path,
-//         currentUserName: 
-// }),
-// )
-// }
+function validateConfig(config: Config): boolean {
+    return config.dbUrl !== undefined && config.currentUserName !== undefined;
+}
 
-// function validateConfig(config: Config): boolean {
-//     return config.dbUrl !== undefined && config.currentUserName !== undefined;
-// }
+type CommandHandler = (cmdName: string, ...args: string[]) => void; 
 
-const a = fs.readFileSync(path.join(os.homedir(), '.gatorconfig.json'), 'utf-8');
-const b = JSON.parse(a); 
-console.log(b); 
-// export function getConfig(): Config {
+function handlerLogin(cmdName: string, ...args: string[]) {
+    if(args.length < 1){
+        throw new Error('The login handler expects a single argument, the username');
+    };
+    setUser(args[0]);
+    console.log(`${args[0]} has been set`);
+
+};
+
+type CommandsRegistry = {
+    [cmdName: string]: CommandHandler
+};
+
+export const registry: CommandsRegistry = {
+};
+
+function registerCommand(registry: CommandsRegistry, cmdName: string, handler: CommandHandler){
+    registry[cmdName] = handler; 
+};
+
+export function runCommand(registry: CommandsRegistry, cmdName: string, ...args: string[]){
+    if(!registry?.[cmdName]){
+        throw new Error("Invalid command");
+    };
+    registry[cmdName](cmdName,...args);
+
+};
+
+registerCommand(registry, "login", handlerLogin); 
+

@@ -1,5 +1,9 @@
+import { readConfig, registry, runCommand, setUser } from "./config.js";
+import { argv } from 'node:process';
+
 function main() {
-  console.log("Hello, world!");
+    const [cmdName, ...args] = argv.slice(2);
+    runCommand(registry, cmdName, ...args);
 }
 
 main();
