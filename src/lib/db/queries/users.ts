@@ -14,4 +14,9 @@ return user;
 
 export async function resetUsers(){
     await db.delete(users).where(eq(users.name, users.name));
+};
+
+export async function getAllUsers() {
+    const allUsers = await db.select().from(users);
+    return allUsers;
 }

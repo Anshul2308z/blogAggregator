@@ -2,7 +2,7 @@ import { create } from "domain";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { createUser, getUserByName, resetUsers } from "./lib/db/queries/users";
+import { createUser, getAllUsers, getUserByName, resetUsers } from "./lib/db/queries/users";
 import { register } from "module";
 
 
@@ -109,3 +109,18 @@ async function handlerReset(){
 };
 
 registerCommand(registry, "reset", handlerReset); // For testing purposes
+
+async function handlerGetUsers(){
+    const users = await getAllUsers();
+    users.forEach(
+        (u)=>{
+            const name = u.name;
+            if(u.name === readConfig().currentUserName){
+                console.log(`* ${name} (current)`);
+            }else{
+                console.log(`* ${name}`);
+            }
+        });
+};
+
+registerCommand(registry, "users", handlerGetUsers); // For testing purposes
