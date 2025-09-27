@@ -1,9 +1,10 @@
 import { readConfig, registry, runCommand, setUser } from "./config.js";
 import { argv } from 'node:process';
 
-function main() {
+async function main() {
     const [cmdName, ...args] = argv.slice(2);
-    runCommand(registry, cmdName, ...args);
+    await runCommand(registry, cmdName, ...args);
+    process.exit(0);
 }
 
 main();
