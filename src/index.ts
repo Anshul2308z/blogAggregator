@@ -1,4 +1,4 @@
-import { readConfig, registry, runCommand, setUser } from "./config.js";
+import { registry, runCommand } from "./commands.js";
 import { argv } from 'node:process';
 
 async function main() {
