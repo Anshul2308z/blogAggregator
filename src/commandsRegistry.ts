@@ -1,4 +1,6 @@
+import { handlerAddFeed } from "./commands/handlerAddFeed.js";
 import { handlerAgg } from "./commands/handlerAgg.js";
+import { handlerGetFeeds } from "./commands/handlerGetFeeds.js";
 import { handlerGetUsers } from "./commands/handlerGetUsers.js";
 import { handlerLogin } from "./commands/handlerLogin.js";
 import { handlerRegister } from "./commands/handlerRegister.js";
@@ -33,4 +35,5 @@ registerCommand(registry, "login", handlerLogin);
 registerCommand(registry, "reset", handlerReset); // For testing purposes
 registerCommand(registry, "users", handlerGetUsers); 
 registerCommand(registry, "agg", handlerAgg);
-
+registerCommand(registry, "addfeed", handlerAddFeed)
+registerCommand(registry, "feeds", handlerGetFeeds)

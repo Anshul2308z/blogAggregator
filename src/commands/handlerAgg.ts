@@ -1,6 +1,6 @@
 import { fetchFeed } from "src/lib/rss";
 
-export async function handlerAgg(_: string) {
+export async function handlerAgg() {
   const feedURL = "https://www.wagslane.dev/index.xml";
 
   const feedData = await fetchFeed(feedURL);
