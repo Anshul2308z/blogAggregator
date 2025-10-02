@@ -1,5 +1,5 @@
-import { registry, runCommand } from "./commands.js";
 import { argv } from 'node:process';
+import { registry, runCommand } from './commandsRegistry';
 
 async function main() {
     const [cmdName, ...args] = argv.slice(2);

@@ -76,4 +76,3 @@ export async function fetchFeed(feedURL: string) {
 
   return rss;
 }
-
