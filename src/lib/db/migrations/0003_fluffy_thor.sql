@@ -1,0 +1,1 @@
+ALTER TABLE "feed_follows" ADD CONSTRAINT "use_feed_unique" UNIQUE("user_id","feed_id");
